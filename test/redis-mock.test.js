@@ -129,7 +129,10 @@ describe("redis-mock", function () {
           should.fail(err, null, "Expected null error.", "");
         }
         r.connected.should.eql(false);
-        done();
+        r.SET('any', 'value', (err, val) => {
+          err.should.be.ok;
+          done();
+        })
       });
     });
 
