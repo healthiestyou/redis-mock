@@ -29,6 +29,8 @@ describe("multi()", function () {
     should.exist(multi.exists);
     should.exist(multi.hget);
     should.exist(multi.exec_atomic);
+    should.exist(multi.renamenx);
+    
   });
 
   describe("exec()", function () {
