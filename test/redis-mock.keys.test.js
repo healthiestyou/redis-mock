@@ -557,6 +557,26 @@ describe("renamenx", function () {
     });
   });
 
+  it("should expire copied keys", function (done) {
+    r.setex("test", 1, "test", function (err, result) {
+      r.renamenx("test", "newTest", function (err, result) {
+        if(err) {
+          done(err);
+          return;
+        }
+        r.get("newTest", function (err, result) {
+          result.should.equal("test")
+          setTimeout(function () {
+            r.get("newTest", function (err, result) {
+              should.not.exist(result);
+              done();
+            });
+          }, 1500);
+        });
+      });
+    });
+  });
+
   it("should return false and not set key to newKey when newKey exists", function (done) {
     r.set("newTest", "newTest", function (err, result) {
       r.set("test", "test", function (err, result) {
